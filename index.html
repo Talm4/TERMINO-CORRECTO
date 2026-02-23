@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitación Lenguaje Inclusivo</title>
+    <style>
+        :root {
+            --azul: #1e40af;
+            --verde: #78bb1e;
+            --gris-suave: #f3f4f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--gris-suave);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #374151;
+        }
+
+        .module-container {
+            width: 90%;
+            max-width: 400px; /* Tamaño ideal para móvil */
+            background: white;
+            padding: 25px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .header h2 {
+            color: var(--azul);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Estética de la tarjeta */
+        .card {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .label-inc {
+            color: #ef4444;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .text-inc {
+            font-size: 1.1rem;
+            color: #1f2937;
+            text-decoration: line-through;
+            opacity: 0.6;
+            margin-bottom: 15px;
+        }
+
+        .label-cor {
+            color: var(--verde);
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .text-cor {
+            font-size: 1.3rem;
+            color: var(--azul);
+            font-weight: 700;
+        }
+
+        /* Botones de navegación */
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            background: var(--azul);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+            transition: opacity 0.2s;
+        }
+
+        button:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        button#next {
+            background: var(--verde);
+        }
+
+        .info-box {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            background: #eff6ff;
+            padding: 10px;
+            border-radius: 10px;
+            color: var(--azul);
+            line-height: 1.3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="module-container">
+    <div class="header">
+        <h2>Lenguaje Inclusivo</h2>
+        <span class="progress-text" id="progress">Tarjeta 1 de 19</span>
+    </div>
+
+    <div class="card" id="card-content">
+        </div>
+
+    <div class="nav-buttons">
+        <button id="prev" onclick="changeCard(-1)" disabled>Anterior</button>
+        <button id="next" onclick="changeCard(1)">Siguiente</button>
+    </div>
+
+    <div class="info-box" id="extra-info" style="display:none;">
+        ⚠️ <b>Nota:</b> En ningún caso se compara entre normal y anormal, genera rechazo.
+    </div>
+</div>
+
+<script>
+    const datos = [
+        { inc: "Defecto de nacimiento", cor: "Discapacidad congénita" },
+        { inc: "Deforme", cor: "Persona con discapacidad congénita" },
+        { inc: "Ciego", cor: "Persona con discapacidad visual" },
+        { inc: "Semi vidente", cor: "Persona con baja visión" },
+        { inc: "Confinado a silla de ruedas", cor: "Persona en silla de ruedas" },
+        { inc: "Mutilado", cor: "Persona con amputación" },
+        { inc: "Lisiado", cor: "Persona con lesión de médula" },
+        { inc: "Tullido", cor: "Persona con paraplejía" },
+        { inc: "Cojo", cor: "Persona con movilidad reducida" },
+        { inc: "Sordo", cor: "Persona con discapacidad auditiva" },
+        { inc: "Anormal", cor: "Persona en condición de discapacidad" },
+        { inc: "Inválido / Minusválido", cor: "Persona en condición de discapacidad" },
+        { inc: "Loco / Demente", cor: "Persona con discapacidad mental" },
+        { inc: "Lento de aprendizaje", cor: "Persona con discapacidad de aprendizaje" },
+        { inc: "Cuadripléjico", cor: "Persona con cuadriplejia" },
+        { inc: "Autista", cor: "Persona con autismo" },
+        { inc: "Mongólico", cor: "Persona con síndrome de Down" },
+        { inc: "Enano", cor: "Persona con baja estatura" },
+        { inc: "Tonto", cor: "Persona con desorden del habla" }
+    ];
+
+    let currentIndex = 0;
+
+    const cardContent = document.getElementById('card-content');
+    const progressText = document.getElementById('progress');
+    const btnPrev = document.getElementById('prev');
+    const btnNext = document.getElementById('next');
+    const infoBox = document.getElementById('extra-info');
+
+    function updateCard() {
+        const item = datos[currentIndex];
+        
+        // Efecto de desvanecimiento simple
+        cardContent.style.opacity = 0;
+        
+        setTimeout(() => {
+            cardContent.innerHTML = `
+                <div class="label-inc">Evitar:</div>
+                <div class="text-inc">${item.inc}</div>
+                <div class="label-cor">Correcto:</div>
+                <div class="text-cor">${item.cor}</div>
+            `;
+            cardContent.style.opacity = 1;
+            progressText.innerText = `Tarjeta ${currentIndex + 1} de ${datos.length}`;
+            
+            // Lógica de botones
+            btnPrev.disabled = currentIndex === 0;
+            btnNext.innerText = currentIndex === datos.length - 1 ? "Finalizar" : "Siguiente";
+            
+            // Mostrar nota especial en la tarjeta de "Anormal" (index 10)
+            infoBox.style.display = (item.inc === "Anormal") ? "block" : "none";
+        }, 150);
+    }
+
+    function changeCard(direction) {
+        currentIndex += direction;
+        
+        if (currentIndex >= datos.length) {
+            alert("¡Excelente! Has revisado todos los términos. Aplicar este lenguaje mejora la experiencia de nuestros viajeros.");
+            currentIndex = 0;
+        }
+        
+        updateCard();
+    }
+
+    // Inicializar
+    updateCard();
+</script>
+
+</body>
+</html>
