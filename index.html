@@ -1,223 +1,743 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capacitación Lenguaje Inclusivo</title>
-    <style>
-        :root {
-            --azul: #1e40af;
-            --verde: #78bb1e;
-            --gris-suave: #f3f4f6;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lenguaje Inclusivo – TALMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    /* =============================================
+       TOKENS
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--gris-suave);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            color: #374151;
-        }
+    :root {
+      --verde:        #78bb1e;
+      --verde-oscuro: #5c9016;
+      --verde-claro:  #92d122;
+      --verde-bg:     #f2fadf;
+      --verde-mid:    #dff0b0;
 
-        .module-container {
-            width: 90%;
-            max-width: 400px; /* Tamaño ideal para móvil */
-            background: white;
-            padding: 25px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-        }
+      --rojo:         #e53e3e;
+      --rojo-bg:      #fff5f5;
+      --rojo-mid:     #fed7d7;
 
-        .header h2 {
-            color: var(--azul);
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
+      --gris-900:  #1c2228;
+      --gris-700:  #374151;
+      --gris-500:  #6b7280;
+      --gris-300:  #d1d5db;
+      --gris-200:  #e5e7eb;
+      --gris-100:  #f3f4f6;
+      --blanco:    #ffffff;
 
-        .progress-text {
-            font-size: 0.85rem;
-            color: #6b7280;
-            margin-bottom: 20px;
-            display: block;
-        }
+      --radio:    20px;
+      --radio-sm: 10px;
+      --trans:    0.35s cubic-bezier(.4,0,.2,1);
+      --trans-f:  0.2s ease;
+    }
 
-        /* Estética de la tarjeta */
-        .card {
-            background: #fff;
-            border: 2px solid #e5e7eb;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
+    html { -webkit-font-smoothing: antialiased; }
 
-        .label-inc {
-            color: #ef4444;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
+    body {
+      font-family: 'Nunito Sans', system-ui, sans-serif;
+      background: var(--gris-100);
+      color: var(--gris-700);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 14px 28px;
+    }
 
-        .text-inc {
-            font-size: 1.1rem;
-            color: #1f2937;
-            text-decoration: line-through;
-            opacity: 0.6;
-            margin-bottom: 15px;
-        }
+    /* Fondo decorativo */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 65% 45% at 8% 5%,  rgba(120,187,30,.13) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 55% at 92% 95%, rgba(120,187,30,.09) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        .label-cor {
-            color: var(--verde);
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
+    /* =============================================
+       WRAPPER
+    ============================================= */
+    #app {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .text-cor {
-            font-size: 1.3rem;
-            color: var(--azul);
-            font-weight: 700;
-        }
+    /* =============================================
+       HEADER
+    ============================================= */
+    header {
+      background: var(--blanco);
+      border-radius: var(--radio) var(--radio) 0 0;
+      border: 1px solid var(--gris-200);
+      border-bottom: none;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-        /* Botones de navegación */
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
+    .header-logo {
+      flex-shrink: 0;
+      height: 44px;
+      display: flex;
+      align-items: center;
+    }
 
-        button {
-            background: var(--azul);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            flex: 1;
-            transition: opacity 0.2s;
-        }
+    .header-logo img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
 
-        button:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
+    .header-sep {
+      width: 1px;
+      height: 36px;
+      background: var(--gris-200);
+      flex-shrink: 0;
+    }
 
-        button#next {
-            background: var(--verde);
-        }
+    .header-text { flex: 1; min-width: 0; }
 
-        .info-box {
-            margin-top: 20px;
-            font-size: 0.8rem;
-            background: #eff6ff;
-            padding: 10px;
-            border-radius: 10px;
-            color: var(--azul);
-            line-height: 1.3;
-        }
-    </style>
+    .header-text h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1rem, 3.5vw, 1.2rem);
+      font-weight: 700;
+      color: var(--gris-900);
+      line-height: 1.2;
+    }
+
+    .header-accent {
+      margin-top: 5px;
+      width: 28px;
+      height: 3px;
+      background: var(--verde);
+      border-radius: 99px;
+    }
+
+    /* =============================================
+       BARRA PROGRESO
+    ============================================= */
+    .progress-strip {
+      background: var(--blanco);
+      border-left: 1px solid var(--gris-200);
+      border-right: 1px solid var(--gris-200);
+      padding: 9px 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-bar-bg {
+      flex: 1;
+      height: 5px;
+      background: var(--gris-200);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--verde-oscuro), var(--verde-claro));
+      transition: width var(--trans);
+    }
+
+    .progress-meta {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .progress-label {
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--gris-500);
+      white-space: nowrap;
+    }
+
+    .progress-pct {
+      font-size: .68rem;
+      font-weight: 800;
+      color: var(--verde-oscuro);
+      background: var(--verde-bg);
+      border-radius: 99px;
+      padding: 2px 8px;
+    }
+
+    /* =============================================
+       TARJETA PRINCIPAL
+    ============================================= */
+    .card-viewport {
+      background: var(--blanco);
+      border-left: 1px solid var(--gris-200);
+      border-right: 1px solid var(--gris-200);
+      padding: 0 22px;
+      overflow: hidden;
+    }
+
+    .card {
+      opacity: 1;
+      transition: opacity .18s ease;
+      padding: 22px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .card.fading { opacity: 0; }
+
+    /* ── Bloque EVITAR ── */
+    .block-avoid {
+      background: var(--rojo-bg);
+      border: 1px solid var(--rojo-mid);
+      border-left: 4px solid var(--rojo);
+      border-radius: 0 var(--radio-sm) var(--radio-sm) 0;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .block-label {
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .block-label.avoid { color: var(--rojo); }
+    .block-label.correct { color: var(--verde-oscuro); }
+
+    .block-label .dot-icon {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .term-avoid {
+      font-size: clamp(1.05rem, 4vw, 1.25rem);
+      font-weight: 800;
+      color: var(--rojo);
+      text-decoration: line-through;
+      text-decoration-color: rgba(229,62,62,.5);
+      text-decoration-thickness: 2px;
+      line-height: 1.25;
+    }
+
+    /* Flecha central */
+    .arrow-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--gris-300);
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .arrow-row::before,
+    .arrow-row::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gris-200);
+    }
+
+    .arrow-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--verde-bg);
+      border: 1.5px solid var(--verde-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .arrow-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--verde-oscuro);
+    }
+
+    /* ── Bloque CORRECTO ── */
+    .block-correct {
+      background: var(--verde-bg);
+      border: 1px solid var(--verde-mid);
+      border-left: 4px solid var(--verde);
+      border-radius: 0 var(--radio-sm) var(--radio-sm) 0;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .term-correct {
+      font-size: clamp(1.1rem, 4vw, 1.3rem);
+      font-weight: 800;
+      color: var(--verde-oscuro);
+      line-height: 1.25;
+    }
+
+    /* ── Nota especial ── */
+    .note-box {
+      display: none;
+      background: #fff8e1;
+      border: 1px solid #fde68a;
+      border-left: 4px solid #f59e0b;
+      border-radius: 0 var(--radio-sm) var(--radio-sm) 0;
+      padding: 10px 14px;
+      font-size: .78rem;
+      color: #78350f;
+      line-height: 1.55;
+    }
+
+    .note-box.visible { display: block; }
+
+    .note-box strong { font-weight: 800; }
+
+    /* =============================================
+       BARRA INFERIOR NAVEGACIÓN
+    ============================================= */
+    .bottom-bar {
+      background: var(--blanco);
+      border: 1px solid var(--gris-200);
+      border-top: 3px solid var(--verde);
+      border-radius: 0 0 var(--radio) var(--radio);
+      padding: 14px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: .84rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background var(--trans-f), transform var(--trans-f), box-shadow var(--trans-f);
+      letter-spacing: .02em;
+    }
+
+    .btn-nav:focus-visible {
+      outline: 3px solid var(--verde);
+      outline-offset: 2px;
+    }
+
+    .btn-prev {
+      background: var(--gris-100);
+      color: var(--gris-700);
+      border: 1px solid var(--gris-200);
+    }
+
+    .btn-prev:hover:not(:disabled) {
+      background: var(--gris-200);
+      transform: translateX(-2px);
+    }
+
+    .btn-next {
+      background: var(--verde);
+      color: #1e2d0e;
+      box-shadow: 0 3px 12px rgba(120,187,30,.3);
+    }
+
+    .btn-next:hover:not(:disabled) {
+      background: var(--verde-oscuro);
+      color: var(--blanco);
+      transform: translateX(2px);
+      box-shadow: 0 5px 18px rgba(92,144,22,.4);
+    }
+
+    .btn-nav:disabled {
+      opacity: .3;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* Dots */
+    .dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 120px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gris-200);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background var(--trans-f), transform var(--trans-f), width var(--trans-f), border-radius var(--trans-f);
+      flex-shrink: 0;
+    }
+
+    .dot.active {
+      background: var(--verde);
+      transform: scale(1.3);
+      width: 16px;
+      border-radius: 3px;
+    }
+
+    .dot:focus-visible {
+      outline: 2px solid var(--verde);
+      outline-offset: 2px;
+    }
+
+    /* =============================================
+       MODAL FINAL
+    ============================================= */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.show { display: flex; }
+
+    .modal {
+      background: var(--blanco);
+      border-radius: var(--radio);
+      padding: 36px 28px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0,0,0,.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .modal-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--verde-bg);
+      border: 2px solid var(--verde-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+
+    .modal h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gris-900);
+    }
+
+    .modal p {
+      font-size: .9rem;
+      color: var(--gris-500);
+      line-height: 1.6;
+    }
+
+    .modal-btn {
+      margin-top: 6px;
+      padding: 12px 32px;
+      border-radius: 8px;
+      border: none;
+      background: var(--verde);
+      color: #1e2d0e;
+      font-family: 'Nunito Sans', sans-serif;
+      font-size: .9rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(120,187,30,.35);
+      transition: background var(--trans-f), transform var(--trans-f);
+    }
+
+    .modal-btn:hover {
+      background: var(--verde-oscuro);
+      color: var(--blanco);
+      transform: translateY(-1px);
+    }
+
+    /* =============================================
+       ACCESIBILIDAD
+    ============================================= */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 420px) {
+      body { padding: 12px 8px 20px; justify-content: flex-start; }
+      header { padding: 12px 16px; gap: 10px; }
+      .header-logo { height: 36px; }
+      .progress-strip { padding: 8px 16px; }
+      .card-viewport { padding: 0 16px; }
+      .card { padding: 18px 0; gap: 12px; }
+      .bottom-bar { padding: 12px 16px; }
+      .btn-nav { padding: 9px 14px; font-size: .8rem; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="module-container">
-    <div class="header">
-        <h2>Lenguaje Inclusivo</h2>
-        <span class="progress-text" id="progress">Tarjeta 1 de 19</span>
-    </div>
+<div id="app">
 
-    <div class="card" id="card-content">
+  <!-- HEADER -->
+  <header>
+    <div class="header-logo">
+      <img src="img/Logo.png" alt="TALMA APRENDE" />
+    </div>
+    <div class="header-sep" aria-hidden="true"></div>
+    <div class="header-text">
+      <h1>Lenguaje Inclusivo</h1>
+      <div class="header-accent" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <!-- PROGRESO -->
+  <div class="progress-strip" role="status" aria-label="Progreso">
+    <div class="progress-bar-bg" aria-hidden="true">
+      <div class="progress-bar-fill" id="progressFill" style="width:5.26%"></div>
+    </div>
+    <div class="progress-meta">
+      <span class="progress-label" id="progressLabel">1 de 19</span>
+      <span class="progress-pct" id="progressPct" aria-hidden="true">5%</span>
+    </div>
+  </div>
+
+  <!-- TARJETA -->
+  <div class="card-viewport">
+    <div class="card" id="card" aria-live="polite" aria-atomic="true">
+
+      <!-- Bloque EVITAR -->
+      <div class="block-avoid">
+        <span class="block-label avoid">
+          <span class="dot-icon" aria-hidden="true"></span>
+          Evitar
+        </span>
+        <div class="term-avoid" id="term-avoid"></div>
+      </div>
+
+      <!-- Flecha -->
+      <div class="arrow-row" aria-hidden="true">
+        <div class="arrow-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg>
         </div>
+        Usar en cambio
+      </div>
 
-    <div class="nav-buttons">
-        <button id="prev" onclick="changeCard(-1)" disabled>Anterior</button>
-        <button id="next" onclick="changeCard(1)">Siguiente</button>
-    </div>
+      <!-- Bloque CORRECTO -->
+      <div class="block-correct">
+        <span class="block-label correct">
+          <span class="dot-icon" aria-hidden="true"></span>
+          Lenguaje correcto
+        </span>
+        <div class="term-correct" id="term-correct"></div>
+      </div>
 
-    <div class="info-box" id="extra-info" style="display:none;">
-        ⚠️ <b>Nota:</b> En ningún caso se compara entre normal y anormal, genera rechazo.
+      <!-- Nota especial -->
+      <div class="note-box" id="note-box">
+        <strong>⚠️ Nota:</strong> Nunca se compara entre "normal" y "anormal". Este tipo de lenguaje genera rechazo y exclusión.
+      </div>
+
     </div>
+  </div>
+
+  <!-- NAVEGACIÓN -->
+  <nav class="bottom-bar" aria-label="Navegación entre fichas">
+
+    <button class="btn-nav btn-prev" id="btnPrev"
+            onclick="changeCard(-1)" disabled
+            aria-label="Ficha anterior">
+      &#8592; Anterior
+    </button>
+
+    <div class="dots" id="dotsContainer" role="tablist" aria-label="Fichas"></div>
+
+    <button class="btn-nav btn-next" id="btnNext"
+            onclick="changeCard(1)"
+            aria-label="Siguiente ficha">
+      Siguiente &#8594;
+    </button>
+
+  </nav>
+
+</div>
+
+<!-- MODAL FINAL -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Módulo completado">
+  <div class="modal">
+    <div class="modal-icon" aria-hidden="true">🎉</div>
+    <h2>¡Módulo completado!</h2>
+    <p>Has revisado todas las fichas de lenguaje inclusivo. Aplicar este lenguaje mejora la experiencia de nuestros viajeros y crea un entorno más inclusivo.</p>
+    <button class="modal-btn" onclick="restartModule()">Revisar de nuevo</button>
+  </div>
 </div>
 
 <script>
-    const datos = [
-        { inc: "Defecto de nacimiento", cor: "Discapacidad congénita" },
-        { inc: "Deforme", cor: "Persona con discapacidad congénita" },
-        { inc: "Ciego", cor: "Persona con discapacidad visual" },
-        { inc: "Semi vidente", cor: "Persona con baja visión" },
-        { inc: "Confinado a silla de ruedas", cor: "Persona en silla de ruedas" },
-        { inc: "Mutilado", cor: "Persona con amputación" },
-        { inc: "Lisiado", cor: "Persona con lesión de médula" },
-        { inc: "Tullido", cor: "Persona con paraplejía" },
-        { inc: "Cojo", cor: "Persona con movilidad reducida" },
-        { inc: "Sordo", cor: "Persona con discapacidad auditiva" },
-        { inc: "Anormal", cor: "Persona en condición de discapacidad" },
-        { inc: "Inválido / Minusválido", cor: "Persona en condición de discapacidad" },
-        { inc: "Loco / Demente", cor: "Persona con discapacidad mental" },
-        { inc: "Lento de aprendizaje", cor: "Persona con discapacidad de aprendizaje" },
-        { inc: "Cuadripléjico", cor: "Persona con cuadriplejia" },
-        { inc: "Autista", cor: "Persona con autismo" },
-        { inc: "Mongólico", cor: "Persona con síndrome de Down" },
-        { inc: "Enano", cor: "Persona con baja estatura" },
-        { inc: "Tonto", cor: "Persona con desorden del habla" }
-    ];
+  var datos = [
+    { inc: "Defecto de nacimiento",    cor: "Discapacidad congénita" },
+    { inc: "Deforme",                  cor: "Persona con discapacidad congénita" },
+    { inc: "Ciego",                    cor: "Persona con discapacidad visual" },
+    { inc: "Semi vidente",             cor: "Persona con baja visión" },
+    { inc: "Confinado a silla de ruedas", cor: "Persona en silla de ruedas" },
+    { inc: "Mutilado",                 cor: "Persona con amputación" },
+    { inc: "Lisiado",                  cor: "Persona con lesión de médula" },
+    { inc: "Tullido",                  cor: "Persona con paraplejía" },
+    { inc: "Cojo",                     cor: "Persona con movilidad reducida" },
+    { inc: "Sordo",                    cor: "Persona con discapacidad auditiva" },
+    { inc: "Anormal",                  cor: "Persona en condición de discapacidad", nota: true },
+    { inc: "Inválido / Minusválido",   cor: "Persona en condición de discapacidad" },
+    { inc: "Loco / Demente",           cor: "Persona con discapacidad mental" },
+    { inc: "Lento de aprendizaje",     cor: "Persona con discapacidad de aprendizaje" },
+    { inc: "Cuadripléjico",            cor: "Persona con cuadriplejia" },
+    { inc: "Autista",                  cor: "Persona con autismo" },
+    { inc: "Mongólico",                cor: "Persona con síndrome de Down" },
+    { inc: "Enano",                    cor: "Persona con baja estatura" },
+    { inc: "Tonto",                    cor: "Persona con desorden del habla" }
+  ];
 
-    let currentIndex = 0;
+  var current = 0;
+  var total   = datos.length;
 
-    const cardContent = document.getElementById('card-content');
-    const progressText = document.getElementById('progress');
-    const btnPrev = document.getElementById('prev');
-    const btnNext = document.getElementById('next');
-    const infoBox = document.getElementById('extra-info');
+  var card        = document.getElementById('card');
+  var termAvoid   = document.getElementById('term-avoid');
+  var termCorrect = document.getElementById('term-correct');
+  var noteBox     = document.getElementById('note-box');
+  var progFill    = document.getElementById('progressFill');
+  var progLabel   = document.getElementById('progressLabel');
+  var progPct     = document.getElementById('progressPct');
+  var btnPrev     = document.getElementById('btnPrev');
+  var btnNext     = document.getElementById('btnNext');
+  var dotsWrap    = document.getElementById('dotsContainer');
+  var modal       = document.getElementById('modalOverlay');
 
-    function updateCard() {
-        const item = datos[currentIndex];
-        
-        // Efecto de desvanecimiento simple
-        cardContent.style.opacity = 0;
-        
-        setTimeout(() => {
-            cardContent.innerHTML = `
-                <div class="label-inc">Evitar:</div>
-                <div class="text-inc">${item.inc}</div>
-                <div class="label-cor">Correcto:</div>
-                <div class="text-cor">${item.cor}</div>
-            `;
-            cardContent.style.opacity = 1;
-            progressText.innerText = `Tarjeta ${currentIndex + 1} de ${datos.length}`;
-            
-            // Lógica de botones
-            btnPrev.disabled = currentIndex === 0;
-            btnNext.innerText = currentIndex === datos.length - 1 ? "Finalizar" : "Siguiente";
-            
-            // Mostrar nota especial en la tarjeta de "Anormal" (index 10)
-            infoBox.style.display = (item.inc === "Anormal") ? "block" : "none";
-        }, 150);
+  /* Crear dots */
+  for (var i = 0; i < total; i++) {
+    (function(idx) {
+      var d = document.createElement('button');
+      d.className = 'dot' + (idx === 0 ? ' active' : '');
+      d.setAttribute('role', 'tab');
+      d.setAttribute('aria-label', 'Ficha ' + (idx + 1));
+      d.setAttribute('aria-current', idx === 0 ? 'true' : 'false');
+      d.onclick = function() { if (idx !== current) jumpTo(idx); };
+      dotsWrap.appendChild(d);
+    })(i);
+  }
+
+  function getDots() { return dotsWrap.querySelectorAll('.dot'); }
+
+  function renderCard() {
+    var item = datos[current];
+    termAvoid.textContent   = item.inc;
+    termCorrect.textContent = item.cor;
+    noteBox.classList.toggle('visible', !!item.nota);
+
+    var pct = Math.round(((current + 1) / total) * 100);
+    progFill.style.width  = pct + '%';
+    progLabel.textContent = (current + 1) + ' de ' + total;
+    progPct.textContent   = pct + '%';
+
+    btnPrev.disabled = current === 0;
+    btnNext.textContent = current === total - 1 ? 'Finalizar ✓' : 'Siguiente →';
+
+    var dots = getDots();
+    dots.forEach(function(d, i) {
+      d.classList.toggle('active', i === current);
+      d.setAttribute('aria-current', i === current ? 'true' : 'false');
+    });
+  }
+
+  function changeCard(dir) {
+    var next = current + dir;
+    if (next < 0) return;
+    if (next >= total) {
+      modal.classList.add('show');
+      return;
     }
+    jumpTo(next);
+  }
 
-    function changeCard(direction) {
-        currentIndex += direction;
-        
-        if (currentIndex >= datos.length) {
-            alert("¡Excelente! Has revisado todos los términos. Aplicar este lenguaje mejora la experiencia de nuestros viajeros.");
-            currentIndex = 0;
-        }
-        
-        updateCard();
-    }
+  function jumpTo(index) {
+    card.classList.add('fading');
+    setTimeout(function() {
+      current = index;
+      renderCard();
+      card.classList.remove('fading');
+    }, 160);
+  }
 
-    // Inicializar
-    updateCard();
+  function restartModule() {
+    modal.classList.remove('show');
+    jumpTo(0);
+  }
+
+  /* Teclado */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeCard(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeCard(-1);
+    if (e.key === 'Escape' && modal.classList.contains('show')) restartModule();
+  });
+
+  /* Cerrar modal al hacer clic fuera */
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) restartModule();
+  });
+
+  /* Swipe táctil */
+  var touchStartX = 0;
+  card.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  card.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) changeCard(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  /* Init */
+  renderCard();
 </script>
 
 </body>
